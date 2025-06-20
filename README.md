@@ -13,7 +13,15 @@ Avocado dataset for this analysis can be found in "Kaggle" [website](https://www
 ## Exploratory Data Analysis
 EDA involved exploring the avocado data to answer some key questions based on certain factors like:
 - Price and Sales Trends
+
+
+![avg_price by Date](https://github.com/user-attachments/assets/e1d63584-0fdd-4a01-aa6e-caa61a55669f)
+
 - Regional Analysis
+
+![total_sales by region](https://github.com/user-attachments/assets/c66f5b1c-e132-4ab6-a773-d0a4e5114dcb)
+
+
 - Product Type Comparison
 - Size-Specific Insights
 - Temporal Trends
