@@ -1,0 +1,153 @@
+
+# 1. Price and Sales Trends 
+# Q1.1: What is the average avocado price over time?
+
+SELECT 
+	Date, 
+    AVG(AveragePrice) AS avg_price
+FROM `my-1st-project-454410.Avocado_data.Avocado_price`
+GROUP BY Date
+ORDER BY Date;
+
+# Q1.2: How has the total sales volume changed year over year?
+SELECT 
+    year, 
+    SUM(Total_Volume) AS total_sales_volume
+FROM `my-1st-project-454410.Avocado_data.Avocado_price`
+GROUP BY year
+ORDER BY year;
+
+# Q1.3: Which month or year had the highest average price?
+#If you have a Date column in string format, you may need to extract the year or month:
+SELECT 
+    year, 
+    AVG(AveragePrice) AS avg_price
+FROM `my-1st-project-454410.Avocado_data.Avocado_price`
+GROUP BY year
+ORDER BY avg_price DESC
+LIMIT 1;
+
+
+# 2. Product Type Comparison
+# Q2.1: How do prices differ between organic and conventional avocados?
+SELECT 
+    type, 
+    AVG(AveragePrice) AS avg_price
+FROM `my-1st-project-454410.Avocado_data.Avocado_price`
+GROUP BY type;
+
+# Q2.2: Which type (organic/conventional) sells more in terms of volume?
+SELECT 
+    type, 
+    SUM(Total_Volume) AS total_volume_sold
+FROM `my-1st-project-454410.Avocado_data.Avocado_price`
+GROUP BY type
+ORDER BY total_volume_sold DESC;
+
+# 3. Regional Analysis
+# Q3.1: What are the top 5 regions by total avocado sales?
+ SELECT 
+    region, 
+    SUM(Total_Volume) AS total_sales
+FROM `my-1st-project-454410.Avocado_data.Avocado_price`
+GROUP BY region
+ORDER BY total_sales DESC
+LIMIT 5;
+
+# Q3.2: What is the average price of avocados per region?
+SELECT 
+    region, 
+    AVG(AveragePrice) AS avg_price
+FROM `my-1st-project-454410.Avocado_data.Avocado_price`
+GROUP BY region
+ORDER BY avg_price DESC;
+
+# Q3.3: Which region had the highest average price for organic avocados?
+SELECT 
+    region, 
+    AVG(AveragePrice) AS avg_price
+FROM `my-1st-project-454410.Avocado_data.Avocado_price`
+WHERE type = 'organic'
+GROUP BY region
+ORDER BY avg_price DESC
+LIMIT 1;
+
+# 4. Size-Specific Insights
+# Q4.1: What is the distribution of sales across PLU codes (4046, 4225, 4770)?
+SELECT 
+    SUM(`4046`) AS total_4046,
+    SUM(`4225`) AS total_4225,
+    SUM(`4770`) AS total_4770
+FROM `my-1st-project-454410.Avocado_data.Avocado_price`;
+
+# Q4.2: Which size category of bags sells the most?
+SELECT 
+    SUM(Small_Bags) AS total_small,
+    SUM(Large_Bags) AS total_large,
+    SUM(XLarge_Bags) AS total_xlarge
+FROM `my-1st-project-454410.Avocado_data.Avocado_price`
+
+
+# 5. Temporal Trends
+# Q5.1: What are the weekly/monthly trends in average price?
+SELECT 
+    FORMAT_DATE('%Y-%m', Date) AS year_month,
+    AVG(AveragePrice) AS avg_price
+FROM `my-1st-project-454410.Avocado_data.Avocado_price`
+GROUP BY FORMAT_DATE('%Y-%m', Date)
+ORDER BY FORMAT_DATE('%Y-%m', Date);
+
+
+
+# Or this (I prefer this)
+SELECT 
+    year_month,
+    AVG(AveragePrice) AS avg_price
+FROM (
+    SELECT 
+        FORMAT_DATE('%Y-%m', Date) AS year_month,
+        AveragePrice
+    FROM `my-1st-project-454410.Avocado_data.Avocado_price`
+)
+GROUP BY year_month
+ORDER BY year_month;
+
+
+# For weekly (if you have a week column or use database functions):
+
+SELECT 
+    year_week,
+    AVG(AveragePrice) AS avg_price
+FROM (
+    SELECT 
+        FORMAT_DATE('%Y-%W', Date) AS year_week,
+        AveragePrice
+    FROM `my-1st-project-454410.Avocado_data.Avocado_price`
+)
+GROUP BY year_week
+ORDER BY year_week;
+
+
+# Q5.2: Is there a seasonal pattern in sales volume or prices?
+SELECT 
+  EXTRACT(MONTH FROM Date) AS month,
+  AVG(AveragePrice) AS avg_price,
+  SUM(Total_Volume) AS total_volume
+FROM `my-1st-project-454410.Avocado_data.Avocado_price`
+GROUP BY month
+ORDER BY month;
+
+
+# 6. Correlation and Averages
+# Q6.1: Is there a correlation between average price and total volume sold?
+SELECT AveragePrice, Total_Volume
+FROM `my-1st-project-454410.Avocado_data.Avocado_price`;
+# load result into python or excel or tableau to calculate correlation (e.g, pearson)
+
+#  Q6.2: What is the average price per year?
+SELECT 
+    year, 
+    AVG(AveragePrice) AS avg_price
+FROM `my-1st-project-454410.Avocado_data.Avocado_price`
+GROUP BY year
+ORDER BY year;
